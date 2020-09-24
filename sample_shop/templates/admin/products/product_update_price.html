@@ -1,0 +1,52 @@
+{% extends "admin/base.html" %}
+{% load i18n %}
+{% block extrastyle %}
+{{ media.css }}
+{% endblock %}
+
+{% block branding %}
+<h1 id="site-name">
+  <a href="{% url 'admin:index' %}">
+    {{ site_header|default:_('Django administration') }}
+  </a>
+</h1>
+{% endblock %}
+
+{% block breadcrumbs %}
+<div class="breadcrumbs">
+  <a href="{% url 'admin:index' %}">{% trans "Начало" %}</a>
+  <a href="{% url 'admin:app_list' app_label='shop_catalog' %}">{% trans "Каталог товаров" %}</a>
+  <a href="{% url 'admin:shop_catalog_product_changelist' %}">{% trans "Товары" %}</a> &rsaquo;
+  {% trans "Изменить цены" %}
+</div>
+{% endblock %}
+
+{% block content %}
+<ul>
+  {% for product in product_list %}
+  <li>{{ product }}</li>
+  {% endfor %}
+</ul>
+<form method="POST">
+  {{ form.errors }}
+  {% csrf_token %}
+  {{ form.products }}
+
+  <div>
+    <h2>{% trans "Изменить цены" %}</h2>
+    <div>
+      <label for="{{ form.old_price.id_for_label }}">
+        {{ form.old_price.label }} {{ form.old_price }}
+      </label>
+    </div>
+    <div>
+      <label for="{{ form.dicount_coeff.id_for_label }}">
+        {{ form.discount_coeff.label }} {{ form.discount_coeff }}
+      </label>
+    </div>
+  </div>
+  <div class="submit-row submit-row_nf">
+    <input type="submit" value="{% trans "Сохранить" %}" class="default" name="_save">
+  </div>
+</form>
+{% endblock %}

@@ -1,0 +1,105 @@
+{% extends "admin/base.html" %}
+
+{% block extrastyle %}
+{{ media.css }}
+{% endblock %}
+
+{% block branding %}
+<h1 id="site-name">
+  <a href="{% url 'admin:index' %}">
+    {{ site_header|default:_('Django administration') }}
+  </a>
+</h1>
+{% endblock %}
+
+{% block breadcrumbs %}
+<div class="breadcrumbs">
+  <a href="{% url 'admin:index' %}">Начало</a> &rsaquo;
+  <a href="{% url 'admin:app_list' app_label='shop_catalog' %}">Каталог товаров</a> &rsaquo;
+  <a href="{% url 'admin:shop_catalog_product_changelist' %}">Товары</a> &rsaquo;
+  Переместить
+</div>
+{% endblock %}
+
+{% block content %}
+<ul>
+  {% for product in product_list %}
+  <li>{{ product }}</li>
+  {% endfor %}
+</ul>
+<form method="POST">
+  {{ form.errors }}
+  {% csrf_token %}
+  {{ form.products }}
+  <div>
+    <h2>Выберите категорию</h2>
+    {{ form.category }}
+  </div>
+  <div>
+    <h2>Выберите дополнительные категории</h2>
+    {{ form.dop_category }}
+  </div>
+  <div>
+    <h2>Вращение изображений</h2>
+    <div>
+      <label for="{{ form.rotate_counter_clockwise.id_for_label }}">
+        {{ form.rotate_counter_clockwise }} {{ form.rotate_counter_clockwise.label }}
+      </label>
+    </div>
+    <div>
+      <label for="{{ form.rotate_clockwise.id_for_label }}">
+        {{ form.rotate_clockwise }} {{ form.rotate_clockwise.label }}
+      </label>
+    </div>
+    <div>
+      <h2>Действия парсера</h2>
+      <div>
+        <label for="{{ form.disable_parser_update.id_for_label }}">
+          {{ form.disable_parser_update }} {{ form.disable_parser_update.label }}
+        </label>
+      </div>
+      <div>
+        <label for="{{ form.update_price.id_for_label }}">
+          {{ form.update_price }} {{ form.update_price.label }}
+        </label>
+      </div>
+      <div>
+        <label for="{{ form.name_overwrite.id_for_label }}">
+          {{ form.name_overwrite }} {{ form.name_overwrite.label }}
+        </label>
+      </div>
+    </div>
+    <div>
+      <h2>Характеристики товаров</h2>
+      <div>
+        <label for="{{ form.is_active.id_for_label }}">
+          {{ form.is_active }} {{ form.is_active.label }}
+        </label>
+      </div>
+      <div>
+        <label for="{{ form.is_main_active.id_for_label }}">
+          {{ form.is_main_active }} {{ form.is_main_active.label }}
+        </label>
+      </div>
+       <div>
+        <label for="{{ form.is_on_sale.id_for_label }}">
+          {{ form.is_on_sale }} {{ form.is_on_sale.label }}
+        </label>
+      </div>
+         <div>
+        <label for="{{ form.is_popular.id_for_label }}">
+          {{ form.is_popular }} {{ form.is_popular.label }}
+        </label>
+      </div>
+               <div>
+        <label for="{{ form.is_new.id_for_label }}">
+          {{ form.is_new }} {{ form.is_new.label }}
+        </label>
+      </div>
+    </div>
+  </div>
+  <div class="submit-row submit-row_nf">
+    <input type="submit" value="Сохранить" class="default" name="_save">
+  </div>
+</form>
+{% endblock %}

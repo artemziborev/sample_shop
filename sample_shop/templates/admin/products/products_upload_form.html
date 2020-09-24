@@ -1,0 +1,18 @@
+{% extends 'admin/base.html' %}
+
+{% block content %}
+  <div>
+    <p>Перед загрузкой файла убедитесь:<br>
+    1. Файл сохранен в формате  CSV.<br>
+    2. Не нарушена структура строк.<br>
+    3. Разделителем значений является ; (точка с запятой).<br>
+      4.  Разделителем десятичных знаков в числах является точка.
+    </p>
+    <form method="POST" enctype="multipart/form-data">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button type="submit">Загрузить файл с товарами</button>
+    </form>
+  </div>
+  <br/>
+{% endblock %}
